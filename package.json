@@ -1,0 +1,15 @@
+{
+  "name": "cy-eye",
+  "version": "1.0.0",
+  "description": "A fs based lib to create json files with cypress names tagged with data-test",
+  "main": "./bin/index.js",
+  "bin": {
+    "cy-eye": "./bin/index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Jean Menezes",
+  "license": "ISC"
+}
