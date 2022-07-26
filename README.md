@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./public/banner.png" width="150">
+<img src="./public/banner.png" width="240">
 
 # cy-eye
 
