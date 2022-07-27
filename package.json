@@ -11,5 +11,10 @@
   },
   "keywords": [],
   "author": "Jean Menezes",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "glob": "^8.0.3",
+    "yargs": "^17.5.1"
+  }
 }
