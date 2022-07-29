@@ -23,8 +23,8 @@ $ cy-eye <path_to_observe_html_file>
 Then in the root of your project will be created a directory with your locator
 
 ```
-cy-eye-locators
-    |--- <observed_file_name>.json
+cy-eye-locators/
+    ├──<observed_file_name>.json
 ```
 
 Example:
@@ -61,9 +61,9 @@ $ cy-eye <path_to_observe_html_files> --context='my-context'
 Then will be created an specifc and contextual dir inside the cy-eye main dir
 
 ```
-cy-eye-locators
-    |---my-context
-        |---locator.json
+cy-eye-locators/
+    ├──my-context/
+        ├──locator.json
 ```
 
 ## Customize
