@@ -11,7 +11,7 @@
   },
   "keywords": [],
   "author": "Jean Menezes",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "chalk": "^4.1.2",
     "glob": "^8.0.3",
