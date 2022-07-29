@@ -48,7 +48,7 @@ The html locator json file shoud be like this:
 }
 ```
 
-_a locator file is create only if the html file has some data-test by default, but you can configure witch cy data or locator selector will be observed in_ [customize](https://github.com/JeanMenezees/cy-eye#customize)
+_a locator file is created based only in data-test prop by default, but you can configure witch cy data or locator selector will be observed in_ [customize](https://github.com/JeanMenezees/cy-eye#customize)
 
 ## Using context
 
