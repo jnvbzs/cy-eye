@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./public/banner.png">
+# cy-eye
 
 CLI to accelerate and centralize [cypress](https://www.cypress.io/) data tags organized by context and features
 
@@ -24,7 +24,7 @@ Then in the root of your project will be created a directory with your locator
 
 ```
 cy-eye-locators/
-    ├──<observed_file_name>.json
+    └── <observed_file_name>.json
 ```
 
 Example:
@@ -62,8 +62,8 @@ Then will be created an specifc and contextual dir inside the cy-eye main dir
 
 ```
 cy-eye-locators/
-    ├──my-context/
-        ├──locator.json
+    └── my-context/
+        └── locator.json
 ```
 
 ## Customize
