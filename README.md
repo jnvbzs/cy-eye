@@ -12,13 +12,13 @@ CLI to accelerate and centralize [cypress](https://www.cypress.io/) data tags or
 
 ## Usage
 
-In root of your project run cy-eye command with the path to observe and map html files:
+In your project root directory run cy-eye command with the path to observe and map html files:
 
 ```
 $ cy-eye <path_to_observe_html_file>
 ```
 
-Then in the root of your project will be created a directory with your locator
+Then will be created a directory with your locator in your project root directory
 
 ```
 cy-eye-locators/
@@ -53,7 +53,7 @@ _a locator file is created based only in data-test prop by default, but you can 
 To contextualize your json mapped tags you can pass one context to command line
 
 ```
-$ cy-eye <path_to_observe_html_files> --context='my-context'
+$ cy-eye <path_to_observe_html_files> --context my-context
 ```
 
 Then will be created an specifc and contextual dir inside the cy-eye main dir
