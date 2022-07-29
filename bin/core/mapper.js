@@ -16,12 +16,13 @@ function mapCypressTags(fileName, htmlContent) {
     tags.forEach((tag) => {
       const tagLocator = tag.match(LOCATOR_TAG_PROP_REGEX);
       const tagDataCy = tag.match(DATA_CY_TAG_PROP_REGEX);
+      const firstDataCyIndex = 0;
 
       if (tagDataCy) {
-        const tagDataCySelector = `[${tagDataCy[0]}]`;
+        const tagDataCySelector = `[${tagDataCy[firstDataCyIndex]}]`;
 
         if (tagLocator) {
-          const locatorName = tagLocator[0]
+          const locatorName = tagLocator[firstDataCyIndex]
             .replace('data-locator="', "")
             .replace('"', "'")
             .replace("'", "");
@@ -30,7 +31,7 @@ function mapCypressTags(fileName, htmlContent) {
             .replace('"', "'")
             .replace('"', "'");
         } else {
-          const locatorName = tagDataCy[0]
+          const locatorName = tagDataCy[firstDataCyIndex]
             .replace('data-test="', "")
             .replace('"', "'")
             .replace("'", "");
