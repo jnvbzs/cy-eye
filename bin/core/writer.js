@@ -3,37 +3,32 @@ const fs = require("fs");
 const path = require("path");
 
 function writeLocators(context, jsonLocators, file) {
-  let cyEyeDir = "./cy-eye-locators";
+  const cyEyeDir = "cy-eye-locators";
 
-  fs.mkdir(`${cyEyeDir}`, function () {});
+  const withContext = (context) => {
+    const path = `${cyEyeDir}/${context}/locator.json`;
+
+    fs.writeFile(path, JSON.stringify(jsonLocators), function (error) {
+      if (error) throw error;
+
+      console.log("Created file", chalk.magenta(path));
+    });
+  };
 
   if (context) {
-    fs.mkdir(`${cyEyeDir}/${context}`, function () {});
-
-    fs.writeFile(
-      `${cyEyeDir}/${context}/locator.json`,
-      JSON.stringify(jsonLocators),
-      function (error) {
-        if (error) console.log(chalk.red(error.message));
-
-        console.log(
-          "Created file",
-          chalk.magenta(`${cyEyeDir}/${context}/locator.json`)
-        );
-      }
-    );
+    fs.mkdir(`${cyEyeDir}`, function () {
+      fs.mkdir(`${cyEyeDir}/${context}`, function () {
+        withContext(context);
+      });
+    });
   } else {
-    const locatorName = path.basename(file);
+    const contextBasedOnFileName = path.basename(file).replace(/.html/, "");
 
-    fs.writeFile(
-      `${cyEyeDir}/${locatorName}.json`,
-      JSON.stringify(jsonLocators),
-      function (error) {
-        if (error) console.log(chalk.red(error.message));
-
-        console.log("Created file", chalk.magenta(`${cyEyeDir}/locator.json`));
-      }
-    );
+    fs.mkdir(`${cyEyeDir}`, function () {
+      fs.mkdir(`${cyEyeDir}/${contextBasedOnFileName}`, function () {
+        withContext(contextBasedOnFileName);
+      });
+    });
   }
 }
 
