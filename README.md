@@ -37,7 +37,7 @@ Observing this html file:
 
 The html locator json file shoud be like this:
 
-```
+```json
 {
     "addButtonLocator": "data-test='addButton'",
     "removeButton": "data-test='removeButton'"
