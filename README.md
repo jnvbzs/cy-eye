@@ -2,7 +2,7 @@
 
 <img src="./public/banner.png">
 
-CLI to accelerate and centralize cypress data tags organized by context and features
+CLI to accelerate and centralize ![cypress](https://www.cypress.io/) data tags organized by context and features
 
 </div>
 
