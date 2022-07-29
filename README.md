@@ -8,9 +8,7 @@ CLI to accelerate and centralize [cypress](https://www.cypress.io/) data tags or
 
 ## Install
 
-```
-$ npm install cy-eye@1.0.0
-```
+🚧 in progress...
 
 ## Usage
 
