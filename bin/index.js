@@ -48,7 +48,7 @@ if (!yargs.argv._[0]) {
             console.log(error);
           } else {
             const jsonLocators = mapper(file, contents);
-            writer(yargs.argv.context, jsonLocators);
+            writer(yargs.argv.context, jsonLocators, file);
           }
         });
       });
