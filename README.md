@@ -27,7 +27,7 @@ Example:
 
 Observing this html file:
 
-```
+```html
 <!-- add button has locator name -->
 <button data-test="addButton" data-locator="addButtonLocator"/>
 
