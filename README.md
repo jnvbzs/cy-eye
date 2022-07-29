@@ -30,6 +30,7 @@ Observing this html file:
 ```
 <!-- add button has locator name -->
 <button data-test="addButton" data-locator="addButtonLocator"/>
+
 <!-- remove button has no locator name -->
 <button data-test="removeButton"/>
 ```
