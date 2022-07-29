@@ -7,6 +7,9 @@ Cli to map with context and functionallity an pre mapped html file to test with 
 </div>
 
 ## Install
+```
+$ npm install cy-eye@1.0.0
+```
 
 ## Usage
 
