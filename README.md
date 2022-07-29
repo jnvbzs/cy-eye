@@ -1,12 +1,13 @@
 <div align="center">
 
-<img src="./public/lib-banner.png">
+<img src="./public/banner.png">
 
-Cli to map with context and functionallity an pre mapped html file to test with cypress.
+CLI to accelerate and centralize cypress data tags organized by context and features
 
 </div>
 
 ## Install
+
 ```
 $ npm install cy-eye@1.0.0
 ```
@@ -23,7 +24,7 @@ Then in the root of your project will be created a directory with your locator
 
 ```
 cy-eye-locators
-    |___<observed_file_name>.json
+    |--- <observed_file_name>.json
 ```
 
 Example:
@@ -32,18 +33,18 @@ Observing this html file:
 
 ```html
 <!-- add button has locator name -->
-<button data-test="addButton" data-locator="addButtonLocator"/>
+<button data-test="addButton" data-locator="addButtonLocator" />
 
 <!-- remove button has no locator name -->
-<button data-test="removeButton"/>
+<button data-test="removeButton" />
 ```
 
 The html locator json file shoud be like this:
 
 ```json
 {
-    "addButtonLocator": "data-test='addButton'",
-    "removeButton": "data-test='removeButton'"
+  "addButtonLocator": "data-test='addButton'",
+  "removeButton": "data-test='removeButton'"
 }
 ```
 
@@ -61,8 +62,8 @@ Then will be created an specifc and contextual dir inside the cy-eye main dir
 
 ```
 cy-eye-locators
-    |___my-context
-            |___locator.json
+    |---my-context
+        |---locator.json
 ```
 
 ## Customize
