@@ -1,0 +1,6 @@
+{
+  "addButton": "[data-test=\"addButton\"]",
+  "removeButton": "[data-test=\"removeButton\"]",
+  "removedCard": "[data-test=\"removedCard\"]",
+  "addedCard": "[data-test=\"addedCard\"]"
+}
