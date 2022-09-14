@@ -3,8 +3,10 @@ const chalk = require("chalk");
 const fs = require("fs");
 const detailTemplate = require("../utils/details-template");
 
-function locateTags(htmlFile) {
-  const cyTags = htmlFile.match(/data-test="(.*?)"/g);
+function locateTags(htmlFile, tagToLocate = "data-test") {
+  const tagToLocateRegex = new RegExp(`${tagToLocate}="(.*?)"`, "g");
+
+  const cyTags = htmlFile.match(tagToLocateRegex);
 
   let locators = {};
 
@@ -94,6 +96,7 @@ module.exports = function (argv) {
   }
 
   let pathToCreateLocators;
+  let tagToLocate;
 
   fs.readFile("./cy-eye.config.json", (err, file) => {
     if (err) {
@@ -105,6 +108,7 @@ module.exports = function (argv) {
     }
 
     pathToCreateLocators = JSON.parse(file).basePath;
+    tagToLocate = JSON.parse(file).tagToLocate;
   });
 
   glob(`${path}/**/*.html`, function (err, files) {
@@ -122,7 +126,7 @@ module.exports = function (argv) {
           process.exit(1);
         }
 
-        const locators = locateTags(contents);
+        const locators = locateTags(contents, tagToLocate);
         const stringLocators = `const ${component} = ${JSON.stringify(locators)}
         
         module.exports = ${component}
