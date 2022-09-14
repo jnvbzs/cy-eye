@@ -2,7 +2,7 @@
 
 ![banner](./public/banner.png)
 
-node CLI to group and contextualize your [cypress](https://www.cypress.io/) data tags
+node CLI to group and contextualize your [cypress](https://www.cypress.io/) data tags in angular projects
 
 </div>
 
