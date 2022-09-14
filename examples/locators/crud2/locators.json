@@ -1,4 +1,0 @@
-{
-  "updateButton": "[data-test=\"updateButton\"]",
-  "feedbackUpdate": "[data-test=\"feedbackUpdate\"]"
-}
