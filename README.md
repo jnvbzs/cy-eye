@@ -14,7 +14,7 @@ $ npm install cy-eye
 
 Create cy-eye.json.config in your project
 
-```json
+```js
 {
     basePath: "./locators",
     tagToLocate: "data-cy"
@@ -29,7 +29,7 @@ $ cy-eye locate <component_path> <component_name>
 Locating component tags will create:
 
 - locator js file (with all simple locators)
-- customize locators file (to allow you to contextualize and [detail](https://github.com/JeanMenezees/cy-eye#Detailedlocators) your component locator)
+- customize locators file (to allow you to contextualize and [detail](https://github.com/JeanMenezees/cy-eye#Detailing) your component locator)
 
 # Detailing
 
