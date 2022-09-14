@@ -1,75 +1,48 @@
 <div align="center">
 
-# cy-eye
+![banner](./public/banner.png)
 
-CLI to accelerate and centralize [cypress](https://www.cypress.io/) data tags organized by context and features
+node CLI to group and contextualize your [cypress](https://www.cypress.io/) data tags in angular projects
 
 </div>
 
-## Install
-
-🚧 in progress...
-
-## Usage
-
-In your project root directory run cy-eye command with the path to observe and map html files:
+# Usage
 
 ```
-$ cy-eye <path_to_observe_html_file>
+$ npm install cy-eye
 ```
 
-Then will be created a directory with your locator in your project root directory
+Create cy-eye.json.config in your project
 
-```
-cy-eye-locators/
-    └── <observed_file_name>.json
-```
-
-Example:
-
-Observing this html file:
-
-```html
-<!-- add button has locator name -->
-<button data-test="addButton" data-locator="addButtonLocator" />
-
-<!-- remove button has no locator name -->
-<button data-test="removeButton" />
-```
-
-The html locator json file shoud be like this:
-
-```json
+```js
 {
-  "addButtonLocator": "data-test='addButton'",
-  "removeButton": "data-test='removeButton'"
+    basePath: "./locators",
+    tagToLocate: "data-cy"
 }
 ```
-
-_a locator file is created based only in data-test prop by default, but you can configure witch cy data or locator selector will be observed in_ [customize](https://github.com/JeanMenezees/cy-eye#customize)
-
-## Using context
-
-To contextualize your json mapped tags you can pass one context to command line
+To generate simple locators in your basePath run:
 
 ```
-$ cy-eye <path_to_observe_html_files> --context my-context
+$ cy-eye locate <component_path> <component_name>
 ```
 
-Then will be created an specifc and contextual dir inside the cy-eye main dir
+Locating component tags will create:
+
+- locator js file (with all simple locators)
+- customize locators file (to allow you to contextualize and [detail](https://github.com/JeanMenezees/cy-eye#Detailing) your component locator)
+
+# Detailing
+
+## Using details API
+
+In locator.customize.js file you will be able to use:
+
+- createContent: used to create a content to one context
+- createDetailedLocator: create one locator js file with context and contents
+- saveDetailsWith: save a detailed locator
+
+To detail locators by specific group and functionallity run:
 
 ```
-cy-eye-locators/
-    └── my-context/
-        └── locator.json
+$ cy-eye detail
 ```
-
-## Customize
-
-🚧 in progress...
-
-## Contributing
-
-|                                                            |              |                            |
-| ---------------------------------------------------------- | ------------ | -------------------------- |
-| <img src="https://github.com/JeanMenezees.png" width="48"> | Jean Menezes | jeanvbonimenezes@gmail.com |
