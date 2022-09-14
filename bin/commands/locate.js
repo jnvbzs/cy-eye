@@ -1,9 +1,10 @@
 const glob = require("glob");
 const chalk = require("chalk");
 const fs = require("fs");
+const { createSpinner } = require("nanospinner");
 const detailTemplate = require("../utils/details-template");
 
-function locateTags(htmlFile, tagToLocate = "data-test") {
+async function locateTags(htmlFile, tagToLocate = "data-test") {
   const tagToLocateRegex = new RegExp(`${tagToLocate}="(.*?)"`, "g");
 
   const cyTags = htmlFile.match(tagToLocateRegex);
@@ -30,7 +31,7 @@ function locateTags(htmlFile, tagToLocate = "data-test") {
   return locators;
 }
 
-function buildLocators(
+async function buildLocators(
   pathToCreateLocators,
   component,
   stringLocators,
@@ -119,30 +120,41 @@ module.exports = function (argv) {
     }
 
     files.forEach((file) => {
-      fs.readFile(file, "utf-8", function (err, contents) {
+      fs.readFile(file, "utf-8", async function (err, contents) {
         if (err) {
           console.log(chalk.red(`Failed to read data from ${file}`));
 
           process.exit(1);
         }
+        
+        const spinner = createSpinner("Locating tags").start();
 
-        const locators = locateTags(contents, tagToLocate);
+        const locators = await locateTags(contents, tagToLocate);
+
+        spinner.success();
+        
         const stringLocators = `const ${component} = ${JSON.stringify(locators)}
         
         module.exports = ${component}
         `;
 
-        fs.mkdir(`${pathToCreateLocators}`, function (err) {
+        fs.mkdir(`${pathToCreateLocators}`, async function (err) {
+          const spinner = createSpinner("Building locators");
+
           if (err) {
             err.code === "EEXIST"
-              ? buildLocators(
+              ? await buildLocators(
                   pathToCreateLocators,
                   component,
                   stringLocators,
                   detailTemplate
                 )
               : console.log(chalk.red(err.message));
-          } else buildLocators(pathToCreateLocators, component, stringLocators, detailTemplate);
+          } else {
+            await buildLocators(pathToCreateLocators, component, stringLocators, detailTemplate);
+          }
+
+          spinner.success();
         });
       });
     });
