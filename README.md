@@ -9,14 +9,14 @@ node CLI to group and contextualize your [cypress](https://www.cypress.io/) data
 # Usage
 
 ```
-$ npm install cy-eye
+$ npm install cy-eye -g
 ```
 
 Create cy-eye.json.config in your project
 
 ```js
 {
-    basePath: "./locators",
+    basePath: "./locators/",
     tagToLocate: "data-cy"
 }
 ```
