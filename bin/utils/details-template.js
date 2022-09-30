@@ -1,7 +1,6 @@
-module.exports = `
-const my_locator = require("./locators");
-//require createContent and createDetailedLocator
-//require saveDetailsWith
+module.exports = (componentName) => `
+import ${componentName} from './locator.js';
+import {createContent, saveDetailsWith} from '@cy-eye/details';
 
 const contents = [
 createContent("sampleFeature", {
@@ -11,7 +10,7 @@ createContent("sampleFeature", {
 }),
 ];
 
-const detailedLocator = createDetailedLocator("sample context", contents);
+const detailedLocator = createDetailedLocator("sampleContext", contents);
 
 // Returns
 /*
