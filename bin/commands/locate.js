@@ -1,8 +1,11 @@
+const fs = require("fs");
+const path = require("path");
 const glob = require("glob");
 const chalk = require("chalk");
-const fs = require("fs");
 const { createSpinner } = require("nanospinner");
 const detailTemplate = require("../utils/details-template");
+const locatorTemplate = require("../utils/locator-template");
+const generateLocatorName = require("../utils/generate-locator-name");
 
 async function locateTags(htmlFile, tagToLocate = "data-test") {
   const tagToLocateRegex = new RegExp(`${tagToLocate}="(.*?)"`, "g");
@@ -84,15 +87,10 @@ async function buildLocators(
 }
 
 module.exports = function (argv) {
-  const path = argv.path;
-  const component = argv.component;
+  const componentPath = argv.path;
 
-  if (!path) {
+  if (!componentPath) {
     console.log(chalk.red("Missing [path] arg"));
-    process.exit(1);
-  }
-  if (!component) {
-    console.log(chalk.red("Missing [component] arg"));
     process.exit(1);
   }
 
@@ -112,50 +110,61 @@ module.exports = function (argv) {
     tagToLocate = JSON.parse(file).tagToLocate;
   });
 
-  glob(`${path}/**/*.html`, function (err, files) {
+  glob(`${componentPath}/**/*.html`, function (err, files) {
     if (err) {
-      console.log(chalk.red(`Failed to read html files in path ${path}`));
+      console.log(
+        chalk.red(`Failed to read html files in path ${componentPath}`)
+      );
 
       process.exit(1);
     }
 
-    files.forEach((file) => {
-      fs.readFile(file, "utf-8", async function (err, contents) {
+    const filesNumber = files.length;
+    const component = generateLocatorName(path.basename(files[0]));
+
+    if (filesNumber > 1) {
+      console.log(
+        chalk.red(`There are more than 1 html file in your component path`)
+      );
+
+      process.exit(1);
+    }
+
+    fs.readFile(files[0], "utf-8", async function (err, contents) {
+      if (err) {
+        console.log(chalk.red(`Failed to read data from ${files[0]}`));
+
+        process.exit(1);
+      }
+
+      const spinner = createSpinner("Locating tags").start();
+
+      const locators = await locateTags(contents, tagToLocate);
+
+      spinner.success();
+
+      fs.mkdir(`${pathToCreateLocators}`, async function (err) {
+        const spinner = createSpinner("Building locators");
+
         if (err) {
-          console.log(chalk.red(`Failed to read data from ${file}`));
-
-          process.exit(1);
+          err.code === "EEXIST"
+            ? await buildLocators(
+                pathToCreateLocators,
+                component,
+                locatorTemplate(component, locators),
+                detailTemplate(component)
+              )
+            : console.log(chalk.red(err.message));
+        } else {
+          await buildLocators(
+            pathToCreateLocators,
+            component,
+            locatorTemplate(component, locators),
+            detailTemplate(component)
+          );
         }
-        
-        const spinner = createSpinner("Locating tags").start();
-
-        const locators = await locateTags(contents, tagToLocate);
 
         spinner.success();
-        
-        const stringLocators = `const ${component} = ${JSON.stringify(locators)}
-        
-        module.exports = ${component}
-        `;
-
-        fs.mkdir(`${pathToCreateLocators}`, async function (err) {
-          const spinner = createSpinner("Building locators");
-
-          if (err) {
-            err.code === "EEXIST"
-              ? await buildLocators(
-                  pathToCreateLocators,
-                  component,
-                  stringLocators,
-                  detailTemplate
-                )
-              : console.log(chalk.red(err.message));
-          } else {
-            await buildLocators(pathToCreateLocators, component, stringLocators, detailTemplate);
-          }
-
-          spinner.success();
-        });
       });
     });
   });

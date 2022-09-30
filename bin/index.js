@@ -9,17 +9,12 @@ yargs
   .scriptName("cy-eye")
   .usage("$0 <cmd> [args]")
   .command(
-    "locate [path] [component]",
+    "locate [path]",
     "",
     (yargs) => {
       yargs.positional("path", {
         type: "string",
         describe: "component path to locate cy tags",
-      });
-
-      yargs.positional("component", {
-        type: "string",
-        describe: "component name to save locator",
       });
     },
     (argv) => locate(argv)
