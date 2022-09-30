@@ -6,6 +6,14 @@ node CLI to group and contextualize your [cypress](https://www.cypress.io/) data
 
 </div>
 
+# Purpose
+
+Use locator objects that contains cypress tags
+
+**To**
+
+Help to find and contextualize cypress tags
+
 # Usage
 
 ```
@@ -20,10 +28,11 @@ Create cy-eye.json.config in your project
     tagToLocate: "data-cy"
 }
 ```
-To generate simple locators in your basePath run:
+
+To generate locators in your basePath run:
 
 ```
-$ cy-eye locate <component_path> <component_name>
+$ cy-eye locate <component_path>
 ```
 
 Locating component tags will create:
@@ -35,14 +44,22 @@ Locating component tags will create:
 
 ## Using details API
 
+```
+$ npm install @cy-eye/detail
+```
+
 In locator.customize.js file you will be able to use:
 
 - createContent: used to create a content to one context
 - createDetailedLocator: create one locator js file with context and contents
 - saveDetailsWith: save a detailed locator
 
+See more in [@cy-eye/detail](https://www.github.com/JeanMenezees/cy-eye/detail/)
+
 To detail locators by specific group and functionallity run:
 
 ```
 $ cy-eye detail
 ```
+# Contributing
+
