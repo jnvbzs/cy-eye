@@ -61,5 +61,4 @@ To detail locators by specific group and functionallity run:
 ```
 $ cy-eye detail
 ```
-# Contributing
 
