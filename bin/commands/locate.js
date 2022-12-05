@@ -6,7 +6,7 @@ const { createSpinner } = require("nanospinner");
 const locatorTemplate = require("../utils/locator-template");
 const generateLocatorName = require("../utils/generate-locator-name");
 
-async function locateTags(htmlFile, tagToLocate = "data-test") {
+async function locateTags(htmlFile, tagToLocate = "data-cy") {
   const tagToLocateRegex = new RegExp(`${tagToLocate}="(.*?)"`, "g");
 
   const cyTags = htmlFile.match(tagToLocateRegex);

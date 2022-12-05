@@ -23,7 +23,7 @@ $ npm install cy-eye -g
 or
 
 ```
-$ yarn install cy-eye
+$ yarn install cy-eye -g
 ```
 
 Create cy-eye.json.config in project root dir
