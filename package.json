@@ -1,6 +1,6 @@
 {
   "name": "cy-eye",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "A fs based lib to create json files with cypress names",
   "main": "./bin/index.js",
   "bin": {
