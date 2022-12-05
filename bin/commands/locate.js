@@ -84,7 +84,7 @@ module.exports = function (argv) {
       process.exit(1);
     }
 
-    pathToCreateLocators = JSON.parse(file).basePath;
+    pathToCreateLocators = JSON.parse(file).locatorsDir;
     tagToLocate = JSON.parse(file).tagToLocate;
   });
 
