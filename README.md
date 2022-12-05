@@ -16,7 +16,7 @@ Simple way to create locator objects that contains cypress tags
 # Usage
 
 ```
-$ npm install cy-eye
+$ npm install cy-eye -g
 ```
 
 or
