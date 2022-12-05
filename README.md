@@ -1,8 +1,9 @@
 <div align="center">
 
-# cy-eye
+![banner](./public/banner.png)
 
 node CLI to group and contextualize your [cypress](https://www.cypress.io/) data tags in [angular](https://angular.io/) projects
+
 </div>
 
 # Purpose
