@@ -3,7 +3,6 @@ const path = require("path");
 const glob = require("glob");
 const chalk = require("chalk");
 const { createSpinner } = require("nanospinner");
-const detailTemplate = require("../utils/details-template");
 const locatorTemplate = require("../utils/locator-template");
 const generateLocatorName = require("../utils/generate-locator-name");
 
@@ -34,13 +33,8 @@ async function locateTags(htmlFile, tagToLocate = "data-test") {
   return locators;
 }
 
-async function buildLocators(
-  pathToCreateLocators,
-  component,
-  stringLocators,
-  detailTemplate
-) {
-  fs.mkdir(`${pathToCreateLocators}${component}`, function (err) {
+async function buildLocators(pathToCreateLocators, component, locatorTemplate) {
+  fs.mkdir(`${pathToCreateLocators}/${component}`, function (err) {
     if (err) {
       console.log(
         chalk.red(`Failed to create ${component} component directory`),
@@ -53,24 +47,8 @@ async function buildLocators(
     }
 
     fs.writeFile(
-      `${pathToCreateLocators}${component}/locators.js`,
-      stringLocators,
-      function (err) {
-        if (err) {
-          console.log(
-            chalk.red(
-              `Failed to create locator json file in ${component} directory`
-            )
-          );
-
-          process.exit(1);
-        }
-      }
-    );
-
-    fs.writeFile(
-      `${pathToCreateLocators}${component}/locator.customize.js`,
-      detailTemplate,
+      `${pathToCreateLocators}/${component}/locators.js`,
+      locatorTemplate,
       function (err) {
         if (err) {
           console.log(
@@ -139,33 +117,37 @@ module.exports = function (argv) {
 
       const spinner = createSpinner("Locating tags").start();
 
-      const locators = await locateTags(contents, tagToLocate);
-
-      spinner.success();
-
-      fs.mkdir(`${pathToCreateLocators}`, async function (err) {
-        const spinner = createSpinner("Building locators");
-
-        if (err) {
-          err.code === "EEXIST"
-            ? await buildLocators(
-                pathToCreateLocators,
-                component,
-                locatorTemplate(component, locators),
-                detailTemplate(component)
-              )
-            : console.log(chalk.red(err.message));
-        } else {
-          await buildLocators(
-            pathToCreateLocators,
-            component,
-            locatorTemplate(component, locators),
-            detailTemplate(component)
-          );
-        }
+      try {
+        const locators = await locateTags(contents, tagToLocate);
 
         spinner.success();
-      });
+
+        fs.mkdir(`${pathToCreateLocators}`, async function (err) {
+          const spinner = createSpinner("Building locators");
+
+          if (err) {
+            err.code === "EEXIST"
+              ? await buildLocators(
+                  pathToCreateLocators,
+                  component,
+                  locatorTemplate(component, locators)
+                )
+              : console.log(chalk.red(err.message));
+          } else {
+            await buildLocators(
+              pathToCreateLocators,
+              component,
+              locatorTemplate(component, locators)
+            );
+          }
+
+          spinner.success();
+        });
+      } catch (err) {
+        spinner.error({ text: `Cannot find ${tagToLocate}` });
+
+        process.exit(1);
+      }
     });
   });
 };

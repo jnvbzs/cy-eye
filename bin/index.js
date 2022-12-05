@@ -3,7 +3,6 @@
 const yargs = require("yargs");
 const pkg = require("../package.json");
 const locate = require("./commands/locate");
-const { detail } = require("./commands/detail");
 
 yargs
   .scriptName("cy-eye")
@@ -18,12 +17,6 @@ yargs
       });
     },
     (argv) => locate(argv)
-  )
-  .command(
-    "detail",
-    "",
-    (yargs) => {},
-    (argv) => detail(argv)
   )
   .help("help")
   .alias("help", "h")
