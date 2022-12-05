@@ -50,7 +50,7 @@ To generate locators run:
 $ cy-eye locate <component_path>
 ```
 
-Then checkout **basePath**, that will be with this structure:
+Then checkout **locatorsDir**, that will be with this structure:
 
 ```
 project
