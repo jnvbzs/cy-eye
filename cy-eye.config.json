@@ -1,4 +1,0 @@
-{
-  "basePath": "./examples/locators/",
-  "tagToLocate": "data-cy"
-}

@@ -1,10 +1,17 @@
 <div align="center">
 
-![banner](./public/banner.png)
+# cy-eye
 
-node CLI to group and contextualize your [cypress](https://www.cypress.io/) data tags in angular projects
-
+node CLI to group and contextualize your [cypress](https://www.cypress.io/) data tags in [angular](https://angular.io/) projects
 </div>
+
+# Purpose
+
+Simple way to create locator objects that contains cypress tags
+
+# Dependencies
+
+- [Nodejs](https://nodejs.org/en/)
 
 # Usage
 
@@ -12,37 +19,42 @@ node CLI to group and contextualize your [cypress](https://www.cypress.io/) data
 $ npm install cy-eye -g
 ```
 
-Create cy-eye.json.config in your project
+or
+
+```
+$ yarn install cy-eye
+```
+
+Create cy-eye.json.config in project root dir
 
 ```js
 {
-    basePath: "./locators/",
+    locatorsDir: "./locators",
     tagToLocate: "data-cy"
 }
 ```
-To generate simple locators in your basePath run:
+
+Where:
+
+_locatorsDir_ - where locators will be
+
+_tagToLocate_ - tag you are looking for
+
+- _data-cy_ is the default target tag
+
+<br>
+
+To generate locators run:
 
 ```
-$ cy-eye locate <component_path> <component_name>
+$ cy-eye locate <component_path>
 ```
 
-Locating component tags will create:
-
-- locator js file (with all simple locators)
-- customize locators file (to allow you to contextualize and [detail](https://github.com/JeanMenezees/cy-eye#Detailing) your component locator)
-
-# Detailing
-
-## Using details API
-
-In locator.customize.js file you will be able to use:
-
-- createContent: used to create a content to one context
-- createDetailedLocator: create one locator js file with context and contents
-- saveDetailsWith: save a detailed locator
-
-To detail locators by specific group and functionallity run:
+Then checkout **locatorsDir**, that will be with this structure:
 
 ```
-$ cy-eye detail
+project
+└───locators
+│   └───componentName
+│             locator.js
 ```

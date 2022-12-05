@@ -1,8 +1,10 @@
+const fs = require("fs");
+const path = require("path");
 const glob = require("glob");
 const chalk = require("chalk");
-const fs = require("fs");
 const { createSpinner } = require("nanospinner");
-const detailTemplate = require("../utils/details-template");
+const locatorTemplate = require("../utils/locator-template");
+const generateLocatorName = require("../utils/generate-locator-name");
 
 async function locateTags(htmlFile, tagToLocate = "data-test") {
   const tagToLocateRegex = new RegExp(`${tagToLocate}="(.*?)"`, "g");
@@ -31,13 +33,8 @@ async function locateTags(htmlFile, tagToLocate = "data-test") {
   return locators;
 }
 
-async function buildLocators(
-  pathToCreateLocators,
-  component,
-  stringLocators,
-  detailTemplate
-) {
-  fs.mkdir(`${pathToCreateLocators}${component}`, function (err) {
+async function buildLocators(pathToCreateLocators, component, locatorTemplate) {
+  fs.mkdir(`${pathToCreateLocators}/${component}`, function (err) {
     if (err) {
       console.log(
         chalk.red(`Failed to create ${component} component directory`),
@@ -50,24 +47,8 @@ async function buildLocators(
     }
 
     fs.writeFile(
-      `${pathToCreateLocators}${component}/locators.js`,
-      stringLocators,
-      function (err) {
-        if (err) {
-          console.log(
-            chalk.red(
-              `Failed to create locator json file in ${component} directory`
-            )
-          );
-
-          process.exit(1);
-        }
-      }
-    );
-
-    fs.writeFile(
-      `${pathToCreateLocators}${component}/locator.customize.js`,
-      detailTemplate,
+      `${pathToCreateLocators}/${component}/locators.js`,
+      locatorTemplate,
       function (err) {
         if (err) {
           console.log(
@@ -84,15 +65,10 @@ async function buildLocators(
 }
 
 module.exports = function (argv) {
-  const path = argv.path;
-  const component = argv.component;
+  const componentPath = argv.path;
 
-  if (!path) {
+  if (!componentPath) {
     console.log(chalk.red("Missing [path] arg"));
-    process.exit(1);
-  }
-  if (!component) {
-    console.log(chalk.red("Missing [component] arg"));
     process.exit(1);
   }
 
@@ -108,35 +84,43 @@ module.exports = function (argv) {
       process.exit(1);
     }
 
-    pathToCreateLocators = JSON.parse(file).basePath;
+    pathToCreateLocators = JSON.parse(file).locatorsDir;
     tagToLocate = JSON.parse(file).tagToLocate;
   });
 
-  glob(`${path}/**/*.html`, function (err, files) {
+  glob(`${componentPath}/**/*.html`, function (err, files) {
     if (err) {
-      console.log(chalk.red(`Failed to read html files in path ${path}`));
+      console.log(
+        chalk.red(`Failed to read html files in path ${componentPath}`)
+      );
 
       process.exit(1);
     }
 
-    files.forEach((file) => {
-      fs.readFile(file, "utf-8", async function (err, contents) {
-        if (err) {
-          console.log(chalk.red(`Failed to read data from ${file}`));
+    const filesNumber = files.length;
+    const component = generateLocatorName(path.basename(files[0]));
 
-          process.exit(1);
-        }
-        
-        const spinner = createSpinner("Locating tags").start();
+    if (filesNumber > 1) {
+      console.log(
+        chalk.red(`There are more than 1 html file in your component path`)
+      );
 
+      process.exit(1);
+    }
+
+    fs.readFile(files[0], "utf-8", async function (err, contents) {
+      if (err) {
+        console.log(chalk.red(`Failed to read data from ${files[0]}`));
+
+        process.exit(1);
+      }
+
+      const spinner = createSpinner("Locating tags").start();
+
+      try {
         const locators = await locateTags(contents, tagToLocate);
 
         spinner.success();
-        
-        const stringLocators = `const ${component} = ${JSON.stringify(locators)}
-        
-        module.exports = ${component}
-        `;
 
         fs.mkdir(`${pathToCreateLocators}`, async function (err) {
           const spinner = createSpinner("Building locators");
@@ -146,17 +130,24 @@ module.exports = function (argv) {
               ? await buildLocators(
                   pathToCreateLocators,
                   component,
-                  stringLocators,
-                  detailTemplate
+                  locatorTemplate(component, locators)
                 )
               : console.log(chalk.red(err.message));
           } else {
-            await buildLocators(pathToCreateLocators, component, stringLocators, detailTemplate);
+            await buildLocators(
+              pathToCreateLocators,
+              component,
+              locatorTemplate(component, locators)
+            );
           }
 
           spinner.success();
         });
-      });
+      } catch (err) {
+        spinner.error({ text: `Cannot find ${tagToLocate}` });
+
+        process.exit(1);
+      }
     });
   });
 };
