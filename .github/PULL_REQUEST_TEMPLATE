@@ -1,0 +1,12 @@
+<!-- First check that your pull request has not yet been proposed -->
+<!-- Avoid using any language other than English-->
+<!-- Make sure you have added or run the appropriate tests for your PR -->
+<!-- If possible complete *all* sections as described. Do not remove any sections. -->
+
+**Proposed changes**
+<!--- Describe the change below, including rationale and design decisions -->
+
+<!--- Include "Patches #[issue_number]" if you are fixing an existing issue -->
+
+**Additional context**
+<!-- Add any other context or screenshots about the feature request here. -->
